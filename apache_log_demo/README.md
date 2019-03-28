@@ -59,3 +59,7 @@ logstash-5.5.1/bin/logstash -f /root/apache_log_demo/config/apache_logstash.conf
 在可视化界面 “Management – Saved Objects” 页签，点击 import 按钮，选择 config/apache_kibana.json 文件，并点击“Yes, overwrite all” 导入
 
 在可视化界面 “Dashboard” 中点击 “Apache日志可视化分析仪表盘” 即可开始日志分析
+
+
+
+> 注：实验来自于华为云学院

@@ -1,0 +1,236 @@
+课程大纲
+
+搜索模板，search template，高级功能，就可以将我们的一些搜索进行模板化，然后的话，每次执行这个搜索，就直接调用模板，给传入一些参数就可以了
+
+越高级的功能，越少使用，可能只有在你真的遇到特别合适的场景的时候，才会去使用某个高级功能。但是，这些高级功能你是否掌握，其实就是普通的es开发人员，和es高手之间的一个区别。高手，一般来说，会把一个技术掌握的特别好，特别全面，特别深入，也许他平时用不到这个技术，但是当真的遇到一定的场景的时候，高手可以基于自己的深厚的技术储备，立即反应过来，找到一个合适的解决方案。
+
+如果是一个普通的技术人员，一般只会学习跟自己当前工作相关的一些知识和技术，只要求自己掌握的技术可以解决工作目前遇到的问题就可以了，就满足了，就会止步不前了，然后就不会更加深入的去学习一个技术。但是，当你的项目真正遇到问题的时候，遇到了一些难题，你之前的那一点技术储备已经没法去应付这些更加困难的问题了，此时，普通的技术人员就会扎耳挠腮，没有任何办法。
+
+高手，对技术是很有追求，能够精通很多自己遇到过的技术，但是也许自己学的很多东西，自己都没用过，但是不要紧，这是你的一种技术储备。
+
+1、search template入门
+
+GET /blog_website/blogs/_search/template
+{
+  "inline" : {
+    "query": { 
+      "match" : { 
+        "{{field}}" : "{{value}}" 
+      } 
+    }
+  },
+  "params" : {
+      "field" : "title",
+      "value" : "博客"
+  }
+}
+
+GET /blog_website/blogs/_search
+{
+  "query": { 
+    "match" : { 
+      "title" : "博客" 
+    } 
+  }
+}
+
+search template："{{field}}" : "{{value}}" 
+
+2、toJson
+
+GET /blog_website/blogs/_search/template
+{
+  "inline": "{\"query\": {\"match\": {{#toJson}}matchCondition{{/toJson}}}}",
+  "params": {
+    "matchCondition": {
+      "title": "博客"
+    }
+  }
+}
+
+GET /blog_website/blogs/_search
+{
+  "query": { 
+    "match" : { 
+      "title" : "博客" 
+    } 
+  }
+}
+
+3、join
+
+GET /blog_website/blogs/_search/template
+{
+  "inline": {
+    "query": {
+      "match": {
+        "title": "{{#join delimiter=' '}}titles{{/join delimiter=' '}}"
+      }
+    }
+  },
+  "params": {
+    "titles": ["博客", "网站"]
+  }
+}
+
+博客,网站
+
+GET /blog_website/blogs/_search
+{
+  "query": { 
+    "match" : { 
+      "title" : "博客 网站" 
+    } 
+  }
+}
+
+4、default value
+
+POST /blog_website/blogs/1/_update
+{
+  "doc": {
+    "views": 5
+  }
+}
+
+GET /blog_website/blogs/_search/template
+{
+  "inline": {
+    "query": {
+      "range": {
+        "views": {
+          "gte": "{{start}}",
+          "lte": "{{end}}{{^end}}20{{/end}}"
+        }
+      }
+    }
+  },
+  "params": {
+    "start": 1,
+    "end": 10
+  }
+}
+
+GET /blog_website/blogs/_search
+{
+  "query": {
+    "range": {
+      "views": {
+        "gte": 1,
+        "lte": 10
+      }
+    }
+  }
+}
+
+GET /blog_website/blogs/_search/template
+{
+  "inline": {
+    "query": {
+      "range": {
+        "views": {
+          "gte": "{{start}}",
+          "lte": "{{end}}{{^end}}20{{/end}}"
+        }
+      }
+    }
+  },
+  "params": {
+    "start": 1
+  }
+}
+
+GET /blog_website/blogs/_search
+{
+  "query": {
+    "range": {
+      "views": {
+        "gte": 1,
+        "lte": 20
+      }
+    }
+  }
+}
+
+
+5、conditional
+
+es的config/scripts目录下，预先保存这个复杂的模板，后缀名是.mustache，文件名是conditonal
+
+{
+  "query": {
+    "bool": {
+      "must": {
+        "match": {
+          "line": "{{text}}" 
+        }
+      },
+      "filter": {
+        {{#line_no}} 
+          "range": {
+            "line_no": {
+              {{#start}} 
+                "gte": "{{start}}" 
+                {{#end}},{{/end}} 
+              {{/start}} 
+              {{#end}} 
+                "lte": "{{end}}" 
+              {{/end}} 
+            }
+          }
+        {{/line_no}} 
+      }
+    }
+  }
+}
+
+GET /my_index/my_type/_search 
+
+{
+  "took": 4,
+  "timed_out": false,
+  "_shards": {
+    "total": 5,
+    "successful": 5,
+    "failed": 0
+  },
+  "hits": {
+    "total": 1,
+    "max_score": 1,
+    "hits": [
+      {
+        "_index": "my_index",
+        "_type": "my_type",
+        "_id": "1",
+        "_score": 1,
+        "_source": {
+          "line": "我的博客",
+          "line_no": 5
+        }
+      }
+    ]
+  }
+}
+
+GET /my_index/my_type/_search/template
+{
+  "file": "conditional",
+  "params": {
+    "text": "博客",
+    "line_no": true,
+    "start": 1,
+    "end": 10
+  }
+}
+
+6、保存search template
+
+config/scripts，.mustache 
+
+提供一个思路
+
+比如说，一般在大型的团队中，可能不同的人，都会想要执行一些类似的搜索操作
+这个时候，有一些负责底层运维的一些同学，就可以基于search template，封装一些模板出来，然后是放在各个es进程的scripts目录下的
+其他的团队，其实就不用各个团队自己反复手写复杂的通用的查询语句了，直接调用某个搜索模板，传入一些参数就好了
+
+

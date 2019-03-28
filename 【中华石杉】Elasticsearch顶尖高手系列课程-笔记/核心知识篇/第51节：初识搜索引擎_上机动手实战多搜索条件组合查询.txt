@@ -1,0 +1,87 @@
+课程大纲
+
+GET /website/article/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "title": "elasticsearch"
+          }
+        }
+      ],
+      "should": [
+        {
+          "match": {
+            "content": "elasticsearch"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match": {
+            "author_id": 111
+          }
+        }
+      ]
+    }
+  }
+}
+
+{
+    "bool": {
+        "must":     { "match": { "title": "how to make millions" }},
+        "must_not": { "match": { "tag":   "spam" }},
+        "should": [
+            { "match": { "tag": "starred" }}
+        ],
+        "filter": {
+          "range": { "date": { "gte": "2014-01-01" }} 
+        }
+    }
+}
+
+bool
+must，must_not，should，filter
+
+每个子查询都会计算一个document针对它的相关度分数，然后bool综合所有分数，合并为一个分数，当然filter是不会计算分数的
+
+{
+    "bool": {
+        "must":     { "match": { "title": "how to make millions" }},
+        "must_not": { "match": { "tag":   "spam" }},
+        "should": [
+            { "match": { "tag": "starred" }}
+        ],
+        "filter": {
+          "bool": { 
+              "must": [
+                  { "range": { "date": { "gte": "2014-01-01" }}},
+                  { "range": { "price": { "lte": 29.99 }}}
+              ],
+              "must_not": [
+                  { "term": { "category": "ebooks" }}
+              ]
+          }
+        }
+    }
+}
+
+GET /company/employee/_search 
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "range": {
+          "age": {
+            "gte": 30
+          }
+        }
+      }
+    }
+  }
+}
+
+
+

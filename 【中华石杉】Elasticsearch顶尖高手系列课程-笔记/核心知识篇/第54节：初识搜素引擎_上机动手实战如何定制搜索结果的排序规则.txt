@@ -1,0 +1,63 @@
+课程大纲
+
+1、默认排序规则
+
+默认情况下，是按照_score降序排序的
+
+然而，某些情况下，可能没有有用的_score，比如说filter
+
+GET /_search
+{
+    "query" : {
+        "bool" : {
+            "filter" : {
+                "term" : {
+                    "author_id" : 1
+                }
+            }
+        }
+    }
+}
+
+当然，也可以是constant_score
+
+GET /_search
+{
+    "query" : {
+        "constant_score" : {
+            "filter" : {
+                "term" : {
+                    "author_id" : 1
+                }
+            }
+        }
+    }
+}
+
+2、定制排序规则
+
+GET /company/employee/_search 
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "range": {
+          "age": {
+            "gte": 30
+          }
+        }
+      }
+    }
+  },
+  "sort": [
+    {
+      "join_date": {
+        "order": "asc"
+      }
+    }
+  ]
+}
+
+
+
+

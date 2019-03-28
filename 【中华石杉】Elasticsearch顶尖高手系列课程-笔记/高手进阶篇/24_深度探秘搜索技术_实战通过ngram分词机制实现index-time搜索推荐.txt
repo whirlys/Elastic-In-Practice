@@ -1,0 +1,144 @@
+1、ngram和index-time搜索推荐原理
+
+什么是ngram
+
+quick，5种长度下的ngram
+
+ngram length=1，q u i c k
+ngram length=2，qu ui ic ck
+ngram length=3，qui uic ick
+ngram length=4，quic uick
+ngram length=5，quick
+
+什么是edge ngram
+
+quick，anchor首字母后进行ngram
+
+q
+qu
+qui
+quic
+quick
+
+使用edge ngram将每个单词都进行进一步的分词切分，用切分后的ngram来实现前缀搜索推荐功能
+
+hello world
+hello we
+
+h
+he
+hel
+hell
+hello		doc1,doc2
+
+w			doc1,doc2
+wo
+wor
+worl
+world
+e			doc2
+
+helloworld
+
+min ngram = 1
+max ngram = 3
+
+h
+he
+hel
+
+hello w
+
+hello --> hello，doc1
+w --> w，doc1
+
+doc1，hello和w，而且position也匹配，所以，ok，doc1返回，hello world
+
+搜索的时候，不用再根据一个前缀，然后扫描整个倒排索引了; 简单的拿前缀去倒排索引中匹配即可，如果匹配上了，那么就好了; match，全文检索
+
+2、实验一下ngram
+
+PUT /my_index
+{
+    "settings": {
+        "analysis": {
+            "filter": {
+                "autocomplete_filter": { 
+                    "type":     "edge_ngram",
+                    "min_gram": 1,
+                    "max_gram": 20
+                }
+            },
+            "analyzer": {
+                "autocomplete": {
+                    "type":      "custom",
+                    "tokenizer": "standard",
+                    "filter": [
+                        "lowercase",
+                        "autocomplete_filter" 
+                    ]
+                }
+            }
+        }
+    }
+}
+
+GET /my_index/_analyze
+{
+  "analyzer": "autocomplete",
+  "text": "quick brown"
+}
+
+PUT /my_index/_mapping/my_type
+{
+  "properties": {
+      "title": {
+          "type":     "string",
+          "analyzer": "autocomplete",
+          "search_analyzer": "standard"
+      }
+  }
+}
+
+hello world
+
+h
+he
+hel
+hell
+hello		
+
+w			
+wo
+wor
+worl
+world
+
+hello w
+
+h
+he
+hel
+hell
+hello	
+
+w
+
+hello w --> hello --> w
+
+GET /my_index/my_type/_search 
+{
+  "query": {
+    "match_phrase": {
+      "title": "hello w"
+    }
+  }
+}
+
+如果用match，只有hello的也会出来，全文检索，只是分数比较低
+推荐使用match_phrase，要求每个term都有，而且position刚好靠着1位，符合我们的期望的
+
+
+
+
+

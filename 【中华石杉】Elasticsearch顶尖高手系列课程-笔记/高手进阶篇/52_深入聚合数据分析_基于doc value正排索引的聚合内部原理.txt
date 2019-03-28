@@ -1,0 +1,117 @@
+课程大纲
+
+聚合分析的内部原理是什么？？？？aggs，term，metric avg max，执行一个聚合操作的时候，内部原理是怎样的呢？用了什么样的数据结构去执行聚合？是不是用的倒排索引？
+
+搜索+聚合，写个示例
+
+GET /test_index/test_type/_search 
+{
+	"query": {
+		"match": {
+			"search_field": "test"
+		}
+	},
+	"aggs": {
+		"group_by_agg_field": {
+			"terms": {
+				"field": "agg_field"
+			}
+		}
+	}
+}
+
+纯用倒排索引来实现的弊端
+
+es肯定不是纯用倒排索引来实现聚合+搜索的
+
+search_field
+
+doc1: hello world test1, test2
+doc2: hello test
+doc3: world	test
+
+hello	doc1,doc2
+world	doc1,doc3
+test1	doc1
+test2	doc1
+test 	doc2,doc3
+
+"query": {
+	"match": {
+		"search_field": "test"
+	}
+}
+
+test --> doc2,doc3 --> search result, doc2,doc3
+
+agg_field
+
+doc2: agg1
+doc3: agg2
+
+
+100万个值
+...
+...
+...
+...
+agg1	doc2
+agg2	doc3
+
+doc2, doc3, search result --> 实际上，要搜索到doc2的agg_field的值是多少，doc3的agg_field的值是多少
+
+doc2和doc3的agg_field的值之后，就可以根据值进行分组，实现terms bucket操作
+
+doc2的agg_field的值是多少，这个时候，如果你手上只有一个倒排索引，你该怎么办？？？你要扫描整个倒排索引，去一个一个的搜，拿到每个值，比如说agg1，看一下，它是不是doc2的值，拿到agg2,看一下，是不是doc2的值，直到找到doc2的agg_field的值，在倒排索引中
+
+如果用纯倒排索引去实现聚合，现实不现实啊？？？性能是很低下的。。。搜索，search，搜倒排索引，搜那个term，就结束了。。。聚合，搜索出了1万个doc，每个doc都要在倒排索引中搜索出它的那个聚合field的值
+
+倒排索引+正排索引（doc value）的原理和优势
+
+doc value：正排索引
+
+search_field
+
+doc1: hello world test1, test2
+doc2: hello test
+doc3: world	test
+
+hello	doc1,doc2
+world	doc1,doc3
+test1	doc1
+test2	doc1
+test 	doc2,doc3
+
+"query": {
+	"match": {
+		"search_field": "test"
+	}
+}
+
+test --> doc2,doc3 --> search result, doc2,doc3
+
+doc value数据结构，正排索引
+
+
+
+...
+...
+...
+100万个
+doc2: agg1
+doc3: agg2
+
+倒排索引的话，必须遍历完整个倒排索引才可以。。。。
+
+因为可能你要聚合的那个field的值，是分词的，比如说hello world my name --> 一个doc的聚合field的值可能在倒排索引中对应多个value
+
+所以说，当你在倒排索引中找到一个值，发现它是属于某个doc的时候，还不能停，必须遍历完整个倒排索引，才能说确保找到了每个doc对应的所有terms，然后进行分组聚合
+
+...
+...
+...
+100万个
+doc2: agg1 hello world
+doc3: agg2 test hello
+
+我们有没有必要搜索完整个正排索引啊？？1万个doc --> 搜 -> 可能跟搜索到15000次，就搜索完了，就找到了1万个doc的聚合field的所有值了，然后就可以执行分组聚合操作了

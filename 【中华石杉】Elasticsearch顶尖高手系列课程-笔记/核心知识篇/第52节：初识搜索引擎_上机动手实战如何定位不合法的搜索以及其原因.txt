@@ -1,0 +1,45 @@
+课程大纲
+
+GET /test_index/test_type/_validate/query?explain
+{
+  "query": {
+    "math": {
+      "test_field": "test"
+    }
+  }
+}
+
+{
+  "valid": false,
+  "error": "org.elasticsearch.common.ParsingException: no [query] registered for [math]"
+}
+
+GET /test_index/test_type/_validate/query?explain
+{
+  "query": {
+    "match": {
+      "test_field": "test"
+    }
+  }
+}
+
+{
+  "valid": true,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "failed": 0
+  },
+  "explanations": [
+    {
+      "index": "test_index",
+      "valid": true,
+      "explanation": "+test_field:test #(#_type:test_type)"
+    }
+  ]
+}
+
+一般用在那种特别复杂庞大的搜索下，比如你一下子写了上百行的搜索，这个时候可以先用validate api去验证一下，搜索是否合法
+
+
+

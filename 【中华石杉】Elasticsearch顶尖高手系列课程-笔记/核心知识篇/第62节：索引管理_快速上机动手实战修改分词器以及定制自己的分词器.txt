@@ -1,0 +1,87 @@
+课程大纲
+
+1、默认的分词器
+
+standard
+
+standard tokenizer：以单词边界进行切分
+standard token filter：什么都不做
+lowercase token filter：将所有字母转换为小写
+stop token filer（默认被禁用）：移除停用词，比如a the it等等
+
+2、修改分词器的设置
+
+启用english停用词token filter
+
+PUT /my_index
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "es_std": {
+          "type": "standard",
+          "stopwords": "_english_"
+        }
+      }
+    }
+  }
+}
+
+GET /my_index/_analyze
+{
+  "analyzer": "standard", 
+  "text": "a dog is in the house"
+}
+
+GET /my_index/_analyze
+{
+  "analyzer": "es_std",
+  "text":"a dog is in the house"
+}
+
+3、定制化自己的分词器
+
+PUT /my_index
+{
+  "settings": {
+    "analysis": {
+      "char_filter": {
+        "&_to_and": {
+          "type": "mapping",
+          "mappings": ["&=> and"]
+        }
+      },
+      "filter": {
+        "my_stopwords": {
+          "type": "stop",
+          "stopwords": ["the", "a"]
+        }
+      },
+      "analyzer": {
+        "my_analyzer": {
+          "type": "custom",
+          "char_filter": ["html_strip", "&_to_and"],
+          "tokenizer": "standard",
+          "filter": ["lowercase", "my_stopwords"]
+        }
+      }
+    }
+  }
+}
+
+GET /my_index/_analyze
+{
+  "text": "tom&jerry are a friend in the house, <a>, HAHA!!",
+  "analyzer": "my_analyzer"
+}
+
+PUT /my_index/_mapping/my_type
+{
+  "properties": {
+    "content": {
+      "type": "text",
+      "analyzer": "my_analyzer"
+    }
+  }
+}
+

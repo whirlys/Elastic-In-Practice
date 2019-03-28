@@ -1,0 +1,57 @@
+课程大纲
+
+1、为什么我们要手动创建索引？
+
+2、创建索引
+
+创建索引的语法
+
+PUT /my_index
+{
+    "settings": { ... any settings ... },
+    "mappings": {
+        "type_one": { ... any mappings ... },
+        "type_two": { ... any mappings ... },
+        ...
+    }
+}
+
+创建索引的示例
+
+PUT /my_index
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "my_type": {
+      "properties": {
+        "my_field": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}
+
+3、修改索引
+
+PUT /my_index/_settings
+{
+    "number_of_replicas": 1
+}
+
+4、删除索引
+
+DELETE /my_index
+DELETE /index_one,index_two
+DELETE /index_*
+DELETE /_all
+
+elasticsearch.yml
+action.destructive_requires_name: true
+
+
+
+
