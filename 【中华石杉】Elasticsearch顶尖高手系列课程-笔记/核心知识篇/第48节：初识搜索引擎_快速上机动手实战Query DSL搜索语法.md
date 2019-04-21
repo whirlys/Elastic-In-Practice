@@ -1,16 +1,21 @@
-课程大纲
+## 第48节：初识搜索引擎-快速上机动手实战Query DSL搜索语法
 
-1、一个例子让你明白什么是Query DSL
+### 1、一个例子让你明白什么是Query DSL
 
+```json
 GET /_search
 {
     "query": {
         "match_all": {}
     }
 }
+```
 
-2、Query DSL的基本语法
 
+
+### 2、Query DSL的基本语法
+
+```json
 {
     QUERY_NAME: {
         ARGUMENT: VALUE,
@@ -26,9 +31,11 @@ GET /_search
         }
     }
 }
+```
 
 示例：
 
+```json
 GET /test_index/test_type/_search 
 {
   "query": {
@@ -37,11 +44,15 @@ GET /test_index/test_type/_search
     }
   }
 }
+```
 
-3、如何组合多个搜索条件
+
+
+### 3、如何组合多个搜索条件
 
 搜索需求：title必须包含elasticsearch，content可以包含elasticsearch也可以不包含，author_id必须不为111
 
+```json
 {
   "took": 1,
   "timed_out": false,
@@ -90,7 +101,9 @@ GET /test_index/test_type/_search
     ]
   }
 }
+```
 
+```json
 GET /website/article/_search
 {
   "query": {
@@ -136,6 +149,7 @@ GET /test_index/_search
             }
     }
 }
+```
 
 
 

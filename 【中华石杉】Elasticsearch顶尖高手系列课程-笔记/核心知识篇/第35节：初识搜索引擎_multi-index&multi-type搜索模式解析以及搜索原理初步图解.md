@@ -1,9 +1,10 @@
-课程大纲
+## 第35节：初识搜索引擎_multi-index&multi-type搜索模式解析以及搜索原理初步图解
 
-1、multi-index和multi-type搜索模式
+### 1、multi-index和multi-type搜索模式
 
 告诉你如何一次性搜索多个index和多个type下的数据
 
+```
 /_search：所有索引，所有type下的所有数据都搜索出来
 /index1/_search：指定一个index，搜索其下所有type的数据
 /index1,index2/_search：同时搜索两个index下的数据
@@ -12,8 +13,9 @@
 /index1/type1,type2/_search：可以搜索一个index下多个type的数据
 /index1,index2/type1,type2/_search：搜索多个index下的多个type的数据
 /_all/type1,type2/_search：_all，可以代表搜索所有index下的指定type的数据
+```
 
-2、初步图解一下简单的搜索原理
+### 2、初步图解一下简单的搜索原理
 
 搜索原理初步图解
 

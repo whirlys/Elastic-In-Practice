@@ -1,10 +1,11 @@
-¿Î³Ì´ó¸Ù
+## µÚ63½Ú£ºË÷Òý¹ÜÀí-ÄÚºË¼¶ÖªÊ¶µã£ºÉîÈëÌ½ÃØtypeµ×²ãÊý¾Ý½á¹¹
 
-type£¬ÊÇÒ»¸öindexÖÐÓÃÀ´Çø·ÖÀàËÆµÄÊý¾ÝµÄ£¬ÀàËÆµÄÊý¾Ý£¬µ«ÊÇ¿ÉÄÜÓÐ²»Í¬µÄfields£¬¶øÇÒÓÐ²»Í¬µÄÊôÐÔÀ´¿ØÖÆË÷Òý½¨Á¢¡¢·Ö´ÊÆ÷
-fieldµÄvalue£¬ÔÚµ×²ãµÄluceneÖÐ½¨Á¢Ë÷ÒýµÄÊ±ºò£¬È«²¿ÊÇopaque bytesÀàÐÍ£¬²»Çø·ÖÀàÐÍµÄ
-luceneÊÇÃ»ÓÐtypeµÄ¸ÅÄîµÄ£¬ÔÚdocumentÖÐ£¬Êµ¼ÊÉÏ½«type×÷ÎªÒ»¸ödocumentµÄfieldÀ´´æ´¢£¬¼´_type£¬esÍ¨¹ý_typeÀ´½øÐÐtypeµÄ¹ýÂËºÍÉ¸Ñ¡
-Ò»¸öindexÖÐµÄ¶à¸ötype£¬Êµ¼ÊÉÏÊÇ·ÅÔÚÒ»Æð´æ´¢µÄ£¬Òò´ËÒ»¸öindexÏÂ£¬²»ÄÜÓÐ¶à¸ötypeÖØÃû£¬¶øÀàÐÍ»òÕßÆäËûÉèÖÃ²»Í¬µÄ£¬ÒòÎªÄÇÑùÊÇÎÞ·¨´¦ÀíµÄ
+type£¬ÊÇÒ»¸öindexÖÐÓÃÀ´Çø·ÖÀàËÆµÄÊý¾ÝµÄ£¬ÀàËÆµÄÊý¾Ý£¬µ«ÊÇ¿ÉÄÜÓÐ²»Í¬µÄfields£¬¶øÇÒÓÐ²»Í¬µÄÊôÐÔÀ´¿ØÖÆË÷Òý½¨Á¢¡¢·Ö´ÊÆ÷   
+fieldµÄvalue£¬ÔÚµ×²ãµÄluceneÖÐ½¨Á¢Ë÷ÒýµÄÊ±ºò£¬È«²¿ÊÇopaque bytesÀàÐÍ£¬²»Çø·ÖÀàÐÍµÄ   
+luceneÊÇÃ»ÓÐtypeµÄ¸ÅÄîµÄ£¬ÔÚdocumentÖÐ£¬Êµ¼ÊÉÏ½«type×÷ÎªÒ»¸ödocumentµÄfieldÀ´´æ´¢£¬¼´_type£¬esÍ¨¹ý_typeÀ´½øÐÐtypeµÄ¹ýÂËºÍÉ¸Ñ¡   
+Ò»¸öindexÖÐµÄ¶à¸ötype£¬Êµ¼ÊÉÏÊÇ·ÅÔÚÒ»Æð´æ´¢µÄ£¬Òò´ËÒ»¸öindexÏÂ£¬²»ÄÜÓÐ¶à¸ötypeÖØÃû£¬¶øÀàÐÍ»òÕßÆäËûÉèÖÃ²»Í¬µÄ£¬ÒòÎªÄÇÑùÊÇÎÞ·¨´¦ÀíµÄ    
 
+```
 {
    "ecommerce": {
       "mappings": {
@@ -37,7 +38,9 @@ luceneÊÇÃ»ÓÐtypeµÄ¸ÅÄîµÄ£¬ÔÚdocumentÖÐ£¬Êµ¼ÊÉÏ½«type×÷ÎªÒ»¸ödocumentµÄfieldÀ´´æ´
       }
    }
 }
+```
 
+```
 {
   "name": "geli kongtiao",
   "price": 1999.0,
@@ -49,9 +52,11 @@ luceneÊÇÃ»ÓÐtypeµÄ¸ÅÄîµÄ£¬ÔÚdocumentÖÐ£¬Êµ¼ÊÉÏ½«type×÷ÎªÒ»¸ödocumentµÄfieldÀ´´æ´
   "price": 199.0,
   "eat_period": "one week"
 }
+```
 
 ÔÚµ×²ãµÄ´æ´¢ÊÇÕâÑù×ÓµÄ¡£¡£¡£¡£
 
+```
 {
    "ecommerce": {
       "mappings": {
@@ -90,10 +95,11 @@ luceneÊÇÃ»ÓÐtypeµÄ¸ÅÄîµÄ£¬ÔÚdocumentÖÐ£¬Êµ¼ÊÉÏ½«type×÷ÎªÒ»¸ödocumentµÄfieldÀ´´æ´
   "service_period": "",
   "eat_period": "one week"
 }
+```
 
 
-×î¼ÑÊµ¼ù£¬½«ÀàËÆ½á¹¹µÄtype·ÅÔÚÒ»¸öindexÏÂ£¬ÕâÐ©typeÓ¦¸ÃÓÐ¶à¸öfieldÊÇÏàÍ¬µÄ
-¼ÙÈçËµ£¬Äã½«Á½¸ötypeµÄfieldÍêÈ«²»Í¬£¬·ÅÔÚÒ»¸öindexÏÂ£¬ÄÇÃ´¾ÍÃ¿ÌõÊý¾Ý¶¼ÖÁÉÙÓÐÒ»°ëµÄfieldÔÚµ×²ãµÄluceneÖÐÊÇ¿ÕÖµ£¬»áÓÐÑÏÖØµÄÐÔÄÜÎÊÌâ
+×î¼ÑÊµ¼ù£¬½«ÀàËÆ½á¹¹µÄtype·ÅÔÚÒ»¸öindexÏÂ£¬ÕâÐ©typeÓ¦¸ÃÓÐ¶à¸öfieldÊÇÏàÍ¬µÄ   
+**¼ÙÈçËµ£¬Äã½«Á½¸ötypeµÄfieldÍêÈ«²»Í¬£¬·ÅÔÚÒ»¸öindexÏÂ£¬ÄÇÃ´¾ÍÃ¿ÌõÊý¾Ý¶¼ÖÁÉÙÓÐÒ»°ëµÄfieldÔÚµ×²ãµÄluceneÖÐÊÇ¿ÕÖµ£¬»áÓÐÑÏÖØµÄÐÔÄÜÎÊÌâ**
 
 
 

@@ -1,17 +1,24 @@
-课程大纲
+## 第46节：初识搜索引擎-mapping复杂数据类型以及object类型数据底层结构大揭秘
 
-1、multivalue field
+### 1、multivalue field
 
+```json
 { "tags": [ "tag1", "tag2" ]}
+```
 
 建立索引时与string是一样的，数据类型不能混
 
-2、empty field
+
+
+### 2、empty field
 
 null，[]，[null]
 
-3、object field
 
+
+### 3、object field
+
+```json
 PUT /company/employee/1
 {
   "address": {
@@ -23,9 +30,11 @@ PUT /company/employee/1
   "age": 27,
   "join_date": "2017-01-01"
 }
+```
 
 address：object类型
 
+```json
 {
   "company": {
     "mappings": {
@@ -115,3 +124,6 @@ address：object类型
     "authors.age":    [26, 55, 39],
     "authors.name":   [jack, white, tom, jones, kitty, smith]
 }
+```
+
+

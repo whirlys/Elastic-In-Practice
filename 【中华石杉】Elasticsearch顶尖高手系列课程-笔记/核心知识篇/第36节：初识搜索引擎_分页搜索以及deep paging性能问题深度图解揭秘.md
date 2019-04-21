@@ -1,23 +1,30 @@
-课程大纲
+## 第36节：初识搜索引擎-分页搜索以及deep paging性能问题深度图解揭秘
 
-1、讲解如何使用es进行分页搜索的语法
+### 1、讲解如何使用es进行分页搜索的语法
 
 size，from
 
+```json
 GET /_search?size=10
 GET /_search?size=10&from=0
 GET /_search?size=10&from=20
+```
+
+
 
 分页的上机实验
 
+```json
 GET /test_index/test_type/_search
 
 "hits": {
     "total": 9,
     "max_score": 1,
+```
 
 我们假设将这9条数据分成3页，每一页是3条数据，来实验一下这个分页搜索的效果
 
+```json
 GET /test_index/test_type/_search?from=0&size=3
 
 {
@@ -62,18 +69,23 @@ GET /test_index/test_type/_search?from=0&size=3
     ]
   }
 }
+```
 
-第一页：id=8,6,4
 
-GET /test_index/test_type/_search?from=3&size=3
 
-第二页：id=2,自动生成,7
+第一页：id=8,6,4   
 
-GET /test_index/test_type/_search?from=6&size=3
+GET /test_index/test_type/_search?from=3&size=3   
 
-第三页：id=1,11,3
+第二页：id=2,自动生成,7   
 
-2、什么是deep paging问题？为什么会产生这个问题，它的底层原理是什么？
+GET /test_index/test_type/_search?from=6&size=3   
+
+第三页：id=1,11,3   
+
+
+
+### 2、什么是deep paging问题？为什么会产生这个问题，它的底层原理是什么？
 
 deep paging性能问题，以及原理深度图解揭秘，很高级的知识点
 

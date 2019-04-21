@@ -1,23 +1,32 @@
-课程大纲
+## 第50节：初识搜索引擎-上机动手实战常用的各种query搜索语法
 
-1、match all
+### 1、match all
 
+```
 GET /_search
 {
     "query": {
         "match_all": {}
     }
 }
+```
 
-2、match
 
+
+### 2、match
+
+```
 GET /_search
 {
     "query": { "match": { "title": "my elasticsearch article" }}
 }
+```
 
-3、multi match
 
+
+### 3、multi match
+
+```
 GET /test_index/test_type/_search
 {
   "query": {
@@ -27,9 +36,13 @@ GET /test_index/test_type/_search
     }
   }
 }
+```
 
-4、range query
 
+
+### 4、range query
+
+```
 GET /company/employee/_search 
 {
   "query": {
@@ -40,9 +53,13 @@ GET /company/employee/_search
     }
   }
 }
+```
 
-5、term query
 
+
+### 5、term query
+
+```
 GET /test_index/test_type/_search 
 {
   "query": {
@@ -51,13 +68,20 @@ GET /test_index/test_type/_search
     }
   }
 }
+```
 
-6、terms query
 
+
+### 6、terms query
+
+```
 GET /_search
 {
     "query": { "terms": { "tag": [ "search", "full_text", "nosql" ] }}
 }
+```
+
+
 
 7、exist query（2.x中的查询，现在已经不提供了）
 

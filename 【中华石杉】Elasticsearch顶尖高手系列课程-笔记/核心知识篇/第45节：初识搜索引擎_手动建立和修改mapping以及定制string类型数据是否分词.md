@@ -1,15 +1,18 @@
-课程大纲
+## 第45节：初识搜索引擎-手动建立和修改mapping以及定制string类型数据是否分词
 
-1、如何建立索引
+### 1、如何建立索引
 
-analyzed
-not_analyzed
-no
+- analyzed
+- not_analyzed
+- no
 
-2、修改mapping
+
+
+### 2、修改mapping
 
 只能创建index时手动建立mapping，或者新增field mapping，但是不能update field mapping
 
+```json
 PUT /website
 {
   "mappings": {
@@ -49,7 +52,9 @@ PUT /website
     }
   }
 }
+```
 
+```json
 {
   "error": {
     "root_cause": [
@@ -67,7 +72,9 @@ PUT /website
   },
   "status": 400
 }
+```
 
+```json
 PUT /website/_mapping/article
 {
   "properties" : {
@@ -77,9 +84,13 @@ PUT /website/_mapping/article
     }
   }
 }
+```
 
-3、测试mapping
 
+
+### 3、测试mapping
+
+```json
 GET /website/_analyze
 {
   "field": "content",
@@ -91,7 +102,9 @@ GET website/_analyze
   "field": "new_field",
   "text": "my dogs"
 }
+```
 
+```json
 {
   "error": {
     "root_cause": [
@@ -105,3 +118,6 @@ GET website/_analyze
   },
   "status": 400
 }
+```
+
+

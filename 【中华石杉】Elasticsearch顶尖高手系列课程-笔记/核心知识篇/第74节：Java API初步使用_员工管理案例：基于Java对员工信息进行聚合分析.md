@@ -1,5 +1,6 @@
-课程大纲
+## 第74节：Java API初步使用-员工管理案例：基于Java对员工信息进行聚合分析
 
+```java
 SearchResponse sr = node.client().prepareSearch()
     .addAggregation(
         AggregationBuilders.terms("by_country").field("country")
@@ -10,13 +11,15 @@ SearchResponse sr = node.client().prepareSearch()
         )
     )
     .execute().actionGet();
+```
 
-我们先给个需求：
+我们先给个需求：   
 
-（1）首先按照country国家来进行分组
-（2）然后在每个country分组内，再按照入职年限进行分组
-（3）最后计算每个分组内的平均薪资
+（1）首先按照country国家来进行分组   
+（2）然后在每个country分组内，再按照入职年限进行分组   
+（3）最后计算每个分组内的平均薪资   
 
+```json
 PUT /company
 {
   "mappings": {
@@ -90,7 +93,9 @@ GET /company/employee/_search
     }
   }
 }
+```
 
+```java
 Map<String, Aggregation> aggrMap = searchResponse.getAggregations().asMap();
 		StringTerms groupByCountry = (StringTerms) aggrMap.get("group_by_country");
 		Iterator<Bucket> groupByCountryBucketIterator = groupByCountry.getBuckets().iterator();
@@ -115,3 +120,4 @@ Map<String, Aggregation> aggrMap = searchResponse.getAggregations().asMap();
 		
 		client.close();
 	}
+```

@@ -1,9 +1,10 @@
-课程大纲
+## 第54节：初识搜索引擎-解密如何将一个field索引两次来解决字符串排序问题
 
-如果对一个string field进行排序，结果往往不准确，因为分词后是多个单词，再排序就不是我们想要的结果了
+如果对一个string field进行排序，结果往往不准确，因为分词后是多个单词，再排序就不是我们想要的结果了   
 
-通常解决方案是，将一个string field建立两次索引，一个分词，用来进行搜索；一个不分词，用来进行排序
+通常解决方案是，将一个string field建立两次索引，一个分词，用来进行搜索；一个不分词，用来进行排序   
 
+```json
 PUT /website 
 {
   "mappings": {
@@ -40,7 +41,11 @@ PUT /website/article/1
   "post_date": "2017-01-01",
   "author_id": 110
 }
+```
 
+
+
+```json
 {
   "took": 2,
   "timed_out": false,
@@ -92,7 +97,11 @@ PUT /website/article/1
     ]
   }
 }
+```
 
+
+
+```json
 GET /website/article/_search
 {
   "query": {
@@ -106,6 +115,7 @@ GET /website/article/_search
     }
   ]
 }
+```
 
 
 

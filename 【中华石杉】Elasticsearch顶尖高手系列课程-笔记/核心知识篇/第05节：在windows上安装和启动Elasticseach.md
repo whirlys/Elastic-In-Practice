@@ -1,13 +1,18 @@
-1、安装JDK，至少1.8.0_73以上版本，java -version
-2、下载和解压缩Elasticsearch安装包，目录结构
-3、启动Elasticsearch：bin\elasticsearch.bat，es本身特点之一就是开箱即用，如果是中小型应用，数据量少，操作不是很复杂，直接启动就可以用了
+## 第05节：在windows上安装和启动Elasticseach
 
-4、检查ES是否启动成功：http://localhost:9200/?pretty
+1、安装JDK，至少1.8.0_73以上版本，java -version   
 
-name: node名称
-cluster_name: 集群名称（默认的集群名称就是elasticsearch）
-version.number: 5.2.0，es版本号
+2、下载和解压缩Elasticsearch安装包，目录结构   
 
+3、启动Elasticsearch：bin\elasticsearch.bat，es本身特点之一就是开箱即用，如果是中小型应用，数据量少，操作不是很复杂，直接启动就可以用了   
+
+4、检查ES是否启动成功：http://localhost:9200/?pretty   
+
+name: node名称   
+cluster_name: 集群名称（默认的集群名称就是elasticsearch）   
+version.number: 5.2.0，es版本号   
+
+```json
 {
   "name" : "4onsTYV",
   "cluster_name" : "elasticsearch",
@@ -21,9 +26,12 @@ version.number: 5.2.0，es版本号
   },
   "tagline" : "You Know, for Search"
 }
+```
 
-5、修改集群名称：elasticsearch.yml
-6、下载和解压缩Kibana安装包，使用里面的开发界面，去操作elasticsearch，作为我们学习es知识点的一个主要的界面入口
-7、启动Kibana：bin\kibana.bat
-8、进入Dev Tools界面
-9、GET _cluster/health
+
+
+5、修改集群名称：elasticsearch.yml   
+6、下载和解压缩Kibana安装包，使用里面的开发界面，去操作elasticsearch，作为我们学习es知识点的一个主要的界面入口   
+7、启动Kibana：bin\kibana.bat   
+8、进入Dev Tools界面   
+9、GET _cluster/health   
